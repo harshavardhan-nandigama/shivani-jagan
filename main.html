@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Birthday Journey 🎉</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  height:100vh;
+  overflow:hidden;
+}
+
+/* COMMON */
+.delayed{
+  opacity:0;
+  pointer-events:none;
+  transform:translateY(14px);
+  transition:.8s ease;
+}
+.delayed.active{
+  opacity:1;
+  pointer-events:auto;
+  transform:translateY(0);
+}
+.titleText{
+  color:#ff0066;
+  text-shadow:0 0 15px #ff66aa;
+}
+
+/* COUNTDOWN */
+#countdownPage{
+  height:100vh;
+  background:linear-gradient(135deg,#ffb347,#ffcc33,#ff7eb9,#ff9a9e);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+}
+#countdownPage h1{font-size:40px;}
+.countdown{display:flex;gap:20px;margin:30px 0;}
+.box{
+  background:rgba(255,255,255,.25);
+  padding:20px;width:120px;border-radius:14px;
+  box-shadow:0 0 15px #ff66aa;
+}
+.box h2{margin:0;font-size:40px;color:#fff;}
+.box p{color:#ff2f92;}
+button{
+  padding:14px 32px;
+  border:none;
+  border-radius:30px;
+  background:#ff0066;
+  color:white;
+  cursor:pointer;
+  box-shadow:0 0 25px #ff66aa;
+}
+
+/* PARTY */
+#partyPage{
+  position:fixed;inset:0;
+  background:radial-gradient(circle at top,#1a0033,#000);
+  display:none;justify-content:center;align-items:center;
+}
+canvas{position:absolute;inset:0;}
+#partyContent{z-index:5;color:white;text-align:center;}
+
+/* JOURNEY */
+#journeyPage{
+  position:fixed;inset:0;
+  background:linear-gradient(135deg,#ffb347,#ffcc33,#ff7eb9,#ff9a9e);
+  display:none;justify-content:center;align-items:center;
+  flex-direction:column;
+}
+#journeyText{
+  font-size:42px;
+  opacity:0;
+  transform:scale(.5);
+  transition:2s;
+}
+#walkBtn{position:fixed;bottom:20px;right:20px;}
+
+/* HEARTS */
+#romanticParticles{position:absolute;inset:0;}
+.heartParticle{
+  position:absolute;
+  bottom:-40px;
+  animation:float 8s linear forwards;
+}
+@keyframes float{to{transform:translateY(-120vh);opacity:0;}}
+
+/* BIRTHDAY */
+#birthdayPage{
+  position:fixed;inset:0;
+  display:none;justify-content:center;align-items:center;
+  flex-direction:column;
+  background:linear-gradient(135deg,#ffb347,#ffcc33,#ff7eb9,#ff9a9e);
+}
+.hbText{
+  font-size:48px;
+  opacity:0;
+  transition:1.5s;
+}
+
+/* CAKE */
+#cakeSection{
+  display:none;height:100vh;
+  justify-content:center;align-items:center;
+  flex-direction:column;
+  background:linear-gradient(135deg,#ffb347,#ffcc33,#ff7eb9,#ff9a9e);
+}
+#cakeImage{width:280px;border-radius:20px;}
+.candle-lit{animation:glow 1.5s infinite alternate;}
+@keyframes glow{to{box-shadow:0 0 40px #ffd1dc;}}
+
+/* MEMORIES */
+#memoriesPage{
+  position:fixed;inset:0;
+  display:none;
+  background:linear-gradient(135deg,#ffb347,#ffcc33,#ff7eb9,#ff9a9e);
+}
+.memory-slide{
+  display:none;
+  height:100vh;
+  padding:40px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.memory-photo{
+  width:45%;
+  opacity:0;
+  transform:translateX(80px);
+  transition:1.5s;
+}
+.memory-photo img{
+  width:100%;
+  border-radius:24px;
+  box-shadow:0 0 30px rgba(255,102,170,.5);
+}
+.memory-quote{
+  width:45%;
+  font-size:36px;
+  opacity:0;
+  transform:translateX(-80px);
+  transition:1.5s;
+}
+.memory-btn{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+}
+
+/* CREDITS */
+#creditsPage{
+  position:fixed;
+  inset:0;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  text-align:center;
+  background:linear-gradient(135deg,#ffb347,#ffcc33,#ff7eb9,#ff9a9e);
+}
+#creditsPage h1{font-size:42px;}
+#creditsPage p{font-size:28px;margin-top:10px;}
+.blink-heart{
+  font-size:60px;
+  margin-top:20px;
+  animation:blink 1.2s infinite;
+}
+@keyframes blink{
+  0%,100%{opacity:1;}
+  50%{opacity:.2;}
+}
+
+/* MOBILE */
+@media(max-width:900px){
+  .memory-slide{flex-direction:column;}
+  .memory-photo,.memory-quote{width:100%;text-align:center;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- BACKGROUND MUSIC -->
+<audio id="bgMusic" loop>
+  <source src="assets/track2-piano.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
+<!-- COUNTDOWN -->
+<section id="countdownPage">
+  <h1 class="titleText">Something Magic Is Almost Here Jagan 💖</h1>
+<div id="simpleCountdown" class="titleText"
+     style="font-size:96px; margin:30px 0; opacity:0; transition:1s;">
+  3
+</div>
+  <button id="startBtn" class="delayed">Start Journey ❤️</button>
+</section>
+
+<!-- PARTY -->
+<section id="partyPage">
+  <canvas id="partyFireworks"></canvas>
+  <div id="partyContent">
+    <h1 class="titleText">Welcome to the Party 🎉</h1>
+    <p>Under glowing lights and endless smiles, tonight belongs to you and your beautiful soul</p>
+    <button id="continueBtn" class="delayed">Continue →</button>
+  </div>
+</section>
+
+<!-- JOURNEY -->
+<section id="journeyPage">
+  <div id="romanticParticles"></div>
+  <h1 id="journeyText" class="titleText">With Boundless Care and Gentle Smiles ❤️</h1>
+  <button id="walkBtn" class="delayed">Walk With Me →</button>
+</section>
+
+<!-- BIRTHDAY -->
+<section id="birthdayPage">
+  <canvas id="birthdayFireworks"></canvas>
+  <h1 id="hb1" class="hbText titleText">Happy New Year 🎉</h1>
+  <h2 id="hb2" class="hbText titleText">my love! ❤️❤️</h2>
+  <button id="birthdayNext" class="delayed">Continue →</button>
+</section>
+
+<!-- CAKE -->
+<section id="cakeSection">
+  <h1 class="titleText">Make a Wish 🎂</h1>
+  <img id="cakeImage" src="assets/cake-normal.png">
+  <button id="cakeActionBtn">Cut the Cake 🎂</button>
+</section>
+
+<!-- MEMORIES -->
+<section id="memoriesPage">
+  <div class="memory-slide">
+    <div class="memory-quote titleText">This New Year isn’t just a new beginning of time, it’s a new chapter of us—hand in hand, heart to heart, choosing love every single day. </div>
+    <div class="memory-photo"><img src="assets/m1.jpeg"></div>
+  </div>
+  <div class="memory-slide">
+    <div class="memory-quote titleText">We’ve faced storms and sunshine, ups and downs, but marrying you taught me one truth: together, every challenge feels lighter and every joy shines brighter.</div>
+    <div class="memory-photo"><img src="assets/m2.jpeg"></div>
+  </div>
+  <div class="memory-slide">
+    <div class="memory-quote titleText">As we step into this new year together, I promise to stand by you, grow with you, and find happiness in every moment we share.</div>
+    <div class="memory-photo"><img src="assets/m3.jpeg"></div>
+  </div>
+  <div class="memory-slide">
+    <div class="memory-quote titleText">And this New Year brings our sweetest blessing yet—our third soul is on the way, filling our hearts with hope and completing our journey as a family.</div>
+    <div class="memory-photo"><img src="assets/m4.jpeg"></div>
+  </div>
+  <button id="memoryNext" class="memory-btn delayed">Continue Journey →</button>
+</section>
+
+<!-- CREDITS -->
+<section id="creditsPage">
+  <h1 class="titleText">Together, our journey lasts forever</h1>
+  <p class="titleText">With lots of love</p>
+  <div class="blink-heart">❤️</div>
+</section>
+
+<script>
+// ELEMENTS
+const startBtn = document.getElementById("startBtn");
+const countdownPage = document.getElementById("countdownPage");
+const partyPage = document.getElementById("partyPage");
+const continueBtn = document.getElementById("continueBtn");
+const journeyPage = document.getElementById("journeyPage");
+const journeyText = document.getElementById("journeyText");
+const walkBtn = document.getElementById("walkBtn");
+const birthdayPage = document.getElementById("birthdayPage");
+const hb1 = document.getElementById("hb1");
+const hb2 = document.getElementById("hb2");
+const birthdayNext = document.getElementById("birthdayNext");
+const cakeSection = document.getElementById("cakeSection");
+const cakeImage = document.getElementById("cakeImage");
+const cakeActionBtn = document.getElementById("cakeActionBtn");
+const memoriesPage = document.getElementById("memoriesPage");
+const memoryNext = document.getElementById("memoryNext");
+const creditsPage = document.getElementById("creditsPage");
+const slides = document.querySelectorAll(".memory-slide");
+const romanticParticles = document.getElementById("romanticParticles");
+const bgMusic = document.getElementById("bgMusic");
+let candle = false;
+let current = 0;
+
+// COUNTDOWN
+// SIMPLE 3-2-1 COUNTDOWN (slow start)
+const simpleCountdown = document.getElementById("simpleCountdown");
+let count = 3;
+
+// wait before starting countdown
+setTimeout(() => {
+
+  // show first number slowly
+  simpleCountdown.style.opacity = 1;
+  simpleCountdown.textContent = count;
+
+  const countdownInterval = setInterval(() => {
+    count--;
+
+    if (count > 0) {
+      simpleCountdown.textContent = count;
+    } else {
+      clearInterval(countdownInterval);
+
+      // fade out 1
+      simpleCountdown.style.opacity = 0;
+
+      // show Start Journey button
+      setTimeout(() => {
+        startBtn.classList.add("active");
+      }, 1200);
+    }
+  }, 1200); // speed between 3 → 2 → 1
+
+}, 2000); // ⏳ delay BEFORE 3 appears
+
+
+// PLAY MUSIC ON FIRST INTERACTION
+startBtn.addEventListener("click", ()=>{
+  bgMusic.play().catch(()=>{});
+});
+
+// PARTY
+startBtn.onclick = ()=>{
+  countdownPage.style.display="none";
+  partyPage.style.display="flex";
+  fireworks(document.getElementById("partyFireworks"));
+  setTimeout(()=>continueBtn.classList.add("active"),3000);
+};
+continueBtn.onclick = ()=>{
+  partyPage.style.display="none";
+  journeyPage.style.display="flex";
+  hearts();
+  setTimeout(()=>{
+    journeyText.style.opacity=1;
+    journeyText.style.transform="scale(1)";
+  },600);
+  setTimeout(()=>walkBtn.classList.add("active"),4000);
+};
+
+// JOURNEY -> BIRTHDAY
+walkBtn.onclick = ()=>{
+  journeyPage.style.display="none";
+  birthdayPage.style.display="flex";
+  fireworks(document.getElementById("birthdayFireworks"));
+  setTimeout(()=>hb1.style.opacity=1,600);
+  setTimeout(()=>hb2.style.opacity=1,1800);
+  setTimeout(()=>birthdayNext.classList.add("active"),4000);
+};
+birthdayNext.onclick = ()=>{
+  birthdayPage.style.display="none";
+  cakeSection.style.display="flex";
+};
+
+// CAKE
+cakeActionBtn.onclick = ()=>{
+  if(!candle){
+    cakeActionBtn.textContent="Lighting Candles ✨";
+    setTimeout(()=>{
+      cakeImage.src="assets/cake-candle.png";
+      cakeImage.classList.add("candle-lit");
+      cakeActionBtn.textContent="Continue Journey →";
+      candle=true;
+    },2500);
+  } else {
+    cakeSection.style.display="none";
+    memoriesPage.style.display="block";
+    showMemory(0);
+  }
+};
+
+// MEMORIES
+function showMemory(i){
+  slides.forEach(s=>s.style.display="none");
+  const slide = slides[i];
+  slide.style.display="flex";
+  const photo = slide.querySelector(".memory-photo");
+  const quote = slide.querySelector(".memory-quote");
+  photo.style.opacity=0;
+  quote.style.opacity=0;
+  memoryNext.classList.remove("active");
+  setTimeout(()=>{photo.style.opacity=1;photo.style.transform="translateX(0)";},500);
+  setTimeout(()=>{quote.style.opacity=1;quote.style.transform="translateX(0)";},3500);
+  setTimeout(()=>memoryNext.classList.add("active"),5500);
+}
+memoryNext.onclick = ()=>{
+  current++;
+  if(current<slides.length) showMemory(current);
+  else{
+    memoriesPage.style.display="none";
+    creditsPage.style.display="flex";
+    creditsPage.style.opacity=0;
+    setTimeout(()=>{creditsPage.style.transition="opacity 1.5s";creditsPage.style.opacity=1;},50);
+  }
+};
+
+// EFFECTS
+function fireworks(c){
+  const ctx=c.getContext("2d");
+  c.width=innerWidth;c.height=innerHeight;
+  const p=[];
+  setInterval(()=>{
+    const x=Math.random()*c.width,y=Math.random()*c.height/2;
+    for(let i=0;i<80;i++)
+      p.push({x,y,vx:(Math.random()-.5)*6,vy:(Math.random()-.5)*6,l:100});
+  },700);
+  (function a(){
+    ctx.clearRect(0,0,c.width,c.height);
+    p.forEach((e,i)=>{
+      e.x+=e.vx;e.y+=e.vy;e.l--;
+      ctx.fillStyle=`rgba(255,105,180,${e.l/100})`;
+      ctx.fillRect(e.x,e.y,2,2);
+      if(e.l<=0)p.splice(i,1);
+    });
+    requestAnimationFrame(a);
+  })();
+}
+function hearts(){
+  setInterval(()=>{
+    const h=document.createElement("div");
+    h.className="heartParticle";
+    h.textContent="❤️";
+    romanticParticles.appendChild(h);
+    setTimeout(()=>h.remove(),8000);
+  },500);
+}
+</script>
+
+</body>
+</html>

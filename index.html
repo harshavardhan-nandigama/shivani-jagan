@@ -233,7 +233,7 @@ canvas{position:absolute;inset:0;}
 <!-- CAKE -->
 <section id="cakeSection">
   <h1 class="titleText">Make a Wish 🎂</h1>
-  <img id="cakeImage" src="assets/cake-normal.png">
+  <img id="cakeImage" src="assets/images/cake-normal.png">
   <button id="cakeActionBtn">Cut the Cake 🎂</button>
 </section>
 
@@ -241,19 +241,19 @@ canvas{position:absolute;inset:0;}
 <section id="memoriesPage">
   <div class="memory-slide">
     <div class="memory-quote titleText">This New Year isn’t just a new beginning of time, it’s a new chapter of us—hand in hand, heart to heart, choosing love every single day. </div>
-    <div class="memory-photo"><img src="assets/m1.jpeg"></div>
+    <div class="memory-photo"><img src="assets/images/m1.jpg"></div>
   </div>
   <div class="memory-slide">
     <div class="memory-quote titleText">We’ve faced storms and sunshine, ups and downs, but marrying you taught me one truth: together, every challenge feels lighter and every joy shines brighter.</div>
-    <div class="memory-photo"><img src="assets/m2.jpeg"></div>
+    <div class="memory-photo"><img src="assets/images/m2.jpg"></div>
   </div>
   <div class="memory-slide">
     <div class="memory-quote titleText">As we step into this new year together, I promise to stand by you, grow with you, and find happiness in every moment we share.</div>
-    <div class="memory-photo"><img src="assets/m3.jpeg"></div>
+    <div class="memory-photo"><img src="assets/images/m3.jpg"></div>
   </div>
   <div class="memory-slide">
     <div class="memory-quote titleText">And this New Year brings our sweetest blessing yet—our third soul is on the way, filling our hearts with hope and completing our journey as a family.</div>
-    <div class="memory-photo"><img src="assets/m4.jpeg"></div>
+    <div class="memory-photo"><img src="assets/images/m4.jpg"></div>
   </div>
   <button id="memoryNext" class="memory-btn delayed">Continue Journey →</button>
 </section>
@@ -365,7 +365,7 @@ cakeActionBtn.onclick = ()=>{
   if(!candle){
     cakeActionBtn.textContent="Lighting Candles ✨";
     setTimeout(()=>{
-      cakeImage.src="assets/cake-candle.png";
+      cakeImage.src="assets/images/cake-candle.png";
       cakeImage.classList.add("candle-lit");
       cakeActionBtn.textContent="Continue Journey →";
       candle=true;
